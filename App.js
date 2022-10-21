@@ -27,7 +27,7 @@ function UserScreen({ navigation }) {
     }
   })
   const onSubmit = data => {
-    console.log(data)
+    console.log(data.rol)
     navigation.navigate('Account', { User: User })
   }
   return (
@@ -102,14 +102,30 @@ function UserScreen({ navigation }) {
 }
 
 function AccountScreen({ route }) {
-  // Definir los datos del formulario que se validara
+  const [numbAcc, setNumAcc] = useState('');
+  const [identf, setIdentf] = useState('');
+  const [accountOwner, setAccountOwner] = useState('');
+  const [date, setDate] = useState('');
+  const [balance, setBalance] = useState('');
+
   const { control, handleSubmit, formState: { errors } } = useForm({
     defaultValues: {
-      fullname: ''
+      numbAcc: '',
+      identf: '',
+      accountOwner: '',
+      date: '',
+      balance: ''
     }
   })
   // definir el metodo para mostrar los datos cuando sean validos
-  const onSubmit = data => console.log(data)
+  const onSubmit2 = data2 => {
+    console.log(data2)
+    return (
+      <View style={{ flex: 1, flexDirection: 'row', flexWrap: 'wrap' }}>
+        <Text style={{ marginRight: 10 }}>{data2.accountOwner}</Text>
+      </View>
+    );
+  }
   return (
     <View style={styles.container}>
       <Text>Bienvenido: {route.params.data}</Text>
@@ -129,12 +145,11 @@ function AccountScreen({ route }) {
         )}
         name='numbAcc'
       />
-      {errors.numbAcc?.type == "required" && <Text style={{ color: "red" }}>El nombre es obligatorio</Text>}
-      {errors.numbAcc?.type == "pattern" && <Text style={{ color: "red" }}>El nombre solo puede tener letras y/o espacios</Text>}
       <Controller
         control={control}
         rules={{
-          required: false,
+          required: true,
+          pattern:/^[0-9]+$/g
         }}
         render={({ field: { onChange, onBlur, value } }) => (
           <TextInput
@@ -147,12 +162,13 @@ function AccountScreen({ route }) {
         )}
         name='identf'
       />
-      {errors.identf?.type == "required" && <Text style={{ color: "red" }}>El nombre es obligatorio</Text>}
-      {errors.identf?.type == "pattern" && <Text style={{ color: "red" }}>El nombre solo puede tener letras y/o espacios</Text>}
+      {errors.identf?.type == "required" && <Text style={{ color: "red" }}>La identificación es obligatoria</Text>}
+      {errors.identf?.type == "pattern" && <Text style={{ color: "red" }}>La identificación solo puede contener números</Text>}
       <Controller
         control={control}
         rules={{
-          required: false,
+          required: true,
+          pattern:/^[A-Za-zÁÉÍÓÚáéíóúñÑ ]+$/g
         }}
         render={({ field: { onChange, onBlur, value } }) => (
           <TextInput
@@ -165,12 +181,13 @@ function AccountScreen({ route }) {
         )}
         name='accountOwner'
       />
-      {errors.accountOwner?.type == "required" && <Text style={{ color: "red" }}>El nombre es obligatorio</Text>}
-      {errors.accountOwner?.type == "pattern" && <Text style={{ color: "red" }}>El nombre solo puede tener letras y/o espacios</Text>}
+      {errors.accountOwner?.type == "required" && <Text style={{ color: "red" }}>El titular de la cuenta es obligatorio</Text>}
+      {errors.accountOwner?.type == "pattern" && <Text style={{ color: "red" }}>El nombre del titular solo puede tener letras y/o espacios</Text>}
       <Controller
         control={control}
         rules={{
           required: false,
+          pattern:/^([0-2][0-9]|3[0-1])(\/|-)(0[1-9]|1[0-2])\2(\d{4})$/
         }}
         render={({ field: { onChange, onBlur, value } }) => (
           <TextInput
@@ -183,17 +200,17 @@ function AccountScreen({ route }) {
         )}
         name='date'
       />
-      {errors.date?.type == "required" && <Text style={{ color: "red" }}>El nombre es obligatorio</Text>}
-      {errors.date?.type == "pattern" && <Text style={{ color: "red" }}>El nombre solo puede tener letras y/o espacios</Text>}
+      {errors.date?.type == "pattern" && <Text style={{ color: "red" }}>El formato de fecha es dd/mm/aaaa </Text>}
       <Controller
         control={control}
         rules={{
           required: false,
+          pattern:/^[0-9]{1,2}$/
         }}
         render={({ field: { onChange, onBlur, value } }) => (
           <TextInput
             style={[styles.inputs, { borderColor: errors.balance?.type == "required" || errors.balance?.type == "pattern" || errors.balance?.type == "maxLength" || errors.balance?.type == "minLength" ? 'red' : 'blue' }]}
-            placeholder="Saldo"
+            placeholder="Saldo (en millones)"
             onChange={onChange}
             onBlur={onBlur}
             value={value}
@@ -201,9 +218,17 @@ function AccountScreen({ route }) {
         )}
         name='balance'
       />
-      {errors.balance?.type == "required" && <Text style={{ color: "red" }}>El nombre es obligatorio</Text>}
-      {errors.balance?.type == "pattern" && <Text style={{ color: "red" }}>El nombre solo puede tener letras y/o espacios</Text>}
+      {errors.balance?.type == "pattern" && <Text style={{ color: "red" }}>Solo se admite números entre 1 y 100 millones</Text>}
+      <TouchableOpacity
+        style={{ backgroundColor: 'blue', borderRadius: 10, padding: 5, width: 180, marginTop: 10 }}
+        onPress={handleSubmit(onSubmit2)}
+      >
+        <Text style={{ color: 'white', textAlign: 'center' }}>Enviar</Text>
+      </TouchableOpacity>
+
     </View>
+
+
   );
 }
 
