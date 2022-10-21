@@ -50,3 +50,9 @@ function UserScreen({ navigation }) {
     );
   }
   
+
+
+
+const nombre = [1,2,3,4,5,6,7,8,9];
+const aleatorio = nombre[Math.floor(Math.random() * nombre.length)];
+console.log(aleatorio)

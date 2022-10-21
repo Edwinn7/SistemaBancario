@@ -32,12 +32,6 @@ function UserScreen({ navigation }) {
   }
   return (
     <View style={styles.container}>
-      <TextInput
-        style={styles.inputs}
-        placeholder="Usuario"
-        onChangeText={value => setUser(value)}
-        value={User}
-      />
       <Controller
         control={control}
         rules={{
@@ -118,30 +112,97 @@ function AccountScreen({ route }) {
   const onSubmit = data => console.log(data)
   return (
     <View style={styles.container}>
-      <Text>Bienvenido: {route.params.User}</Text>
+      <Text>Bienvenido: {route.params.data}</Text>
       <Controller
         control={control}
         rules={{
-          required: true,
-          pattern: /^[A-Za-zÁÉÍÓÚáéíóúñÑ ]+$/g,
-          maxLength: 30,
-          minLength: 3
+          required: false,
         }}
         render={({ field: { onChange, onBlur, value } }) => (
           <TextInput
-            style={[styles.inputs, { borderColor: errors.fullname?.type == "required" || errors.fullname?.type == "pattern" || errors.fullname?.type == "maxLength" || errors.fullname?.type == "minLength" ? 'red' : 'blue' }]}
-            placeholder="Nombre Completo"
+            style={[styles.inputs, { borderColor: errors.numbAcc?.type == "required" || errors.numbAcc?.type == "pattern" || errors.numbAcc?.type == "maxLength" || errors.numbAcc?.type == "minLength" ? 'red' : 'blue' }]}
+            placeholder="Numero de cuenta"
             onChange={onChange}
             onBlur={onBlur}
             value={value}
           />
         )}
-        name='fullname'
+        name='numbAcc'
       />
-      {errors.fullname?.type == "required" && <Text style={{ color: "red" }}>El nombre es obligatorio</Text>}
-      {errors.fullname?.type == "maxLength" && <Text style={{ color: "red" }}>El nombre no puede exceder de 30 caracteres</Text>}
-      {errors.fullname?.type == "minLength" && <Text style={{ color: "red" }}>El nombre debe tener minimo 3 caracteres</Text>}
-      {errors.fullname?.type == "pattern" && <Text style={{ color: "red" }}>El nombre solo puede tener letras y/o espacios</Text>}
+      {errors.numbAcc?.type == "required" && <Text style={{ color: "red" }}>El nombre es obligatorio</Text>}
+      {errors.numbAcc?.type == "pattern" && <Text style={{ color: "red" }}>El nombre solo puede tener letras y/o espacios</Text>}
+      <Controller
+        control={control}
+        rules={{
+          required: false,
+        }}
+        render={({ field: { onChange, onBlur, value } }) => (
+          <TextInput
+            style={[styles.inputs, { borderColor: errors.identf?.type == "required" || errors.identf?.type == "pattern" || errors.identf?.type == "maxLength" || errors.identf?.type == "minLength" ? 'red' : 'blue' }]}
+            placeholder="Identificacion"
+            onChange={onChange}
+            onBlur={onBlur}
+            value={value}
+          />
+        )}
+        name='identf'
+      />
+      {errors.identf?.type == "required" && <Text style={{ color: "red" }}>El nombre es obligatorio</Text>}
+      {errors.identf?.type == "pattern" && <Text style={{ color: "red" }}>El nombre solo puede tener letras y/o espacios</Text>}
+      <Controller
+        control={control}
+        rules={{
+          required: false,
+        }}
+        render={({ field: { onChange, onBlur, value } }) => (
+          <TextInput
+            style={[styles.inputs, { borderColor: errors.accountOwner?.type == "required" || errors.accountOwner?.type == "pattern" || errors.accountOwner?.type == "maxLength" || errors.accountOwner?.type == "minLength" ? 'red' : 'blue' }]}
+            placeholder="Titular de la Cuenta"
+            onChange={onChange}
+            onBlur={onBlur}
+            value={value}
+          />
+        )}
+        name='accountOwner'
+      />
+      {errors.accountOwner?.type == "required" && <Text style={{ color: "red" }}>El nombre es obligatorio</Text>}
+      {errors.accountOwner?.type == "pattern" && <Text style={{ color: "red" }}>El nombre solo puede tener letras y/o espacios</Text>}
+      <Controller
+        control={control}
+        rules={{
+          required: false,
+        }}
+        render={({ field: { onChange, onBlur, value } }) => (
+          <TextInput
+            style={[styles.inputs, { borderColor: errors.date?.type == "required" || errors.date?.type == "pattern" || errors.date?.type == "maxLength" || errors.date?.type == "minLength" ? 'red' : 'blue' }]}
+            placeholder="Fecha"
+            onChange={onChange}
+            onBlur={onBlur}
+            value={value}
+          />
+        )}
+        name='date'
+      />
+      {errors.date?.type == "required" && <Text style={{ color: "red" }}>El nombre es obligatorio</Text>}
+      {errors.date?.type == "pattern" && <Text style={{ color: "red" }}>El nombre solo puede tener letras y/o espacios</Text>}
+      <Controller
+        control={control}
+        rules={{
+          required: false,
+        }}
+        render={({ field: { onChange, onBlur, value } }) => (
+          <TextInput
+            style={[styles.inputs, { borderColor: errors.balance?.type == "required" || errors.balance?.type == "pattern" || errors.balance?.type == "maxLength" || errors.balance?.type == "minLength" ? 'red' : 'blue' }]}
+            placeholder="Saldo"
+            onChange={onChange}
+            onBlur={onBlur}
+            value={value}
+          />
+        )}
+        name='balance'
+      />
+      {errors.balance?.type == "required" && <Text style={{ color: "red" }}>El nombre es obligatorio</Text>}
+      {errors.balance?.type == "pattern" && <Text style={{ color: "red" }}>El nombre solo puede tener letras y/o espacios</Text>}
     </View>
   );
 }
