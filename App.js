@@ -27,7 +27,7 @@ function UserScreen({ navigation }) {
     }
   })
   const onSubmit = data => {
-    console.log(data.rol)
+    console.log(data.User)
     navigation.navigate('Account', { User: User })
   }
   return (
@@ -36,10 +36,11 @@ function UserScreen({ navigation }) {
         control={control}
         rules={{
           required: true,
+          pattern:/^[a-zA-ZñÑáéíóúÁÉÍÓÚ]+$/
         }}
         render={({ field: { onChange, onBlur, value } }) => (
           <TextInput
-            style={[styles.inputs, { borderColor: errors.User?.type == "required" || errors.User?.type == "pattern" || errors.User?.type == "maxLength" || errors.User?.type == "minLength" ? 'red' : 'blue' }]}
+            style={[styles.inputs, { borderColor: errors.User?.type == "required" || errors.User?.type == "pattern" || errors.User?.type == "maxLength" || errors.User?.type == "minLength" ? 'red' : '#df4a43' }]}
             placeholder="Usuario"
             onChange={onChange}
             onBlur={onBlur}
@@ -48,7 +49,8 @@ function UserScreen({ navigation }) {
         )}
         name='User'
       />
-      {errors.User?.type == "required" && <Text style={{ color: "red" }}>El nombre es obligatorio</Text>}
+      {errors.User?.type == "required" && <Text style={{ color: "#df4a43" }}>El usuario es obligatorio</Text>}
+      {errors.User?.type == "pattern" && <Text style={{ color: "#df4a43" }}>El usuario debe contener solo letras</Text>}
       {/* --------------------------- */}
       <Controller
         control={control}
@@ -56,7 +58,7 @@ function UserScreen({ navigation }) {
         }}
         render={({ field: { onChange, onBlur, value } }) => (
           <TextInput
-            style={[styles.inputs, { borderColor: errors.rol?.type == "required" || errors.rol?.type == "pattern" || errors.rol?.type == "maxLength" || errors.rol?.type == "minLength" ? 'red' : 'blue' }]}
+            style={[styles.inputs, { borderColor: errors.rol?.type == "required" || errors.rol?.type == "pattern" || errors.rol?.type == "maxLength" || errors.rol?.type == "minLength" ? 'red' : '#df4a43' }]}
             placeholder="Rol"
             onChange={onChange}
             onBlur={onBlur}
@@ -73,7 +75,7 @@ function UserScreen({ navigation }) {
         }}
         render={({ field: { onChange, onBlur, value } }) => (
           <TextInput
-            style={[styles.inputs, { borderColor: errors.passwd?.type == "required" || errors.passwd?.type == "pattern" || errors.passwd?.type == "maxLength" || errors.passwd?.type == "minLength" ? 'red' : 'blue' }]}
+            style={[styles.inputs, { borderColor: errors.passwd?.type == "required" || errors.passwd?.type == "pattern" || errors.passwd?.type == "maxLength" || errors.passwd?.type == "minLength" ? 'red' : '#df4a43' }]}
             placeholder="Contraseña"
             onChange={onChange}
             onBlur={onBlur}
@@ -83,15 +85,15 @@ function UserScreen({ navigation }) {
         )}
         name='passwd'
       />
-      {errors.passwd?.type == "required" && <Text style={{ color: "red" }}>La contraseña es obligatoria</Text>}
-      {errors.passwd?.type == "pattern" && <Text style={{ color: "red" }}>La contraseña debe tener al menos una letra mayúscula,una letra minuscula,menos un dígito, 1 caracter especial y sin espacios en blanco</Text>}
+      {errors.passwd?.type == "required" && <Text style={{ color: "#df4a43" }}>La contraseña es obligatoria</Text>}
+      {errors.passwd?.type == "pattern" && <Text style={{ color: "#df4a43" }}>La contraseña debe tener al menos una letra mayúscula,una letra minuscula,menos un dígito, 1 caracter especial y sin espacios en blanco</Text>}
 
 
 
 
 
       <TouchableOpacity
-        style={{ backgroundColor: 'blue', borderRadius: 10, padding: 5, width: 180, marginTop: 10 }}
+        style={{ backgroundColor: '#df4a43', borderRadius: 10, padding: 5, width: 180, marginTop: 10 }}
         onPress={handleSubmit(onSubmit)}
       >
         <Text style={{ color: 'white', textAlign: 'center' }}>Iniciar Sesion</Text>
@@ -101,7 +103,7 @@ function UserScreen({ navigation }) {
   );
 }
 
-function AccountScreen({ route }) {
+function AccountScreen({route}) {
   const [numbAcc, setNumAcc] = useState('');
   const [identf, setIdentf] = useState('');
   const [accountOwner, setAccountOwner] = useState('');
@@ -128,7 +130,7 @@ function AccountScreen({ route }) {
   }
   return (
     <View style={styles.container}>
-      <Text>Bienvenido: {route.params.data}</Text>
+      <Text>Bienvenido: {}</Text>
       <Controller
         control={control}
         rules={{
@@ -136,7 +138,7 @@ function AccountScreen({ route }) {
         }}
         render={({ field: { onChange, onBlur, value } }) => (
           <TextInput
-            style={[styles.inputs, { borderColor: errors.numbAcc?.type == "required" || errors.numbAcc?.type == "pattern" || errors.numbAcc?.type == "maxLength" || errors.numbAcc?.type == "minLength" ? 'red' : 'blue' }]}
+            style={[styles.inputs, { borderColor: errors.numbAcc?.type == "required" || errors.numbAcc?.type == "pattern" || errors.numbAcc?.type == "maxLength" || errors.numbAcc?.type == "minLength" ? 'red' : '#df4a43' }]}
             placeholder="Numero de cuenta"
             onChange={onChange}
             onBlur={onBlur}
@@ -153,7 +155,7 @@ function AccountScreen({ route }) {
         }}
         render={({ field: { onChange, onBlur, value } }) => (
           <TextInput
-            style={[styles.inputs, { borderColor: errors.identf?.type == "required" || errors.identf?.type == "pattern" || errors.identf?.type == "maxLength" || errors.identf?.type == "minLength" ? 'red' : 'blue' }]}
+            style={[styles.inputs, { borderColor: errors.identf?.type == "required" || errors.identf?.type == "pattern" || errors.identf?.type == "maxLength" || errors.identf?.type == "minLength" ? 'red' : '#df4a43' }]}
             placeholder="Identificacion"
             onChange={onChange}
             onBlur={onBlur}
@@ -162,8 +164,8 @@ function AccountScreen({ route }) {
         )}
         name='identf'
       />
-      {errors.identf?.type == "required" && <Text style={{ color: "red" }}>La identificación es obligatoria</Text>}
-      {errors.identf?.type == "pattern" && <Text style={{ color: "red" }}>La identificación solo puede contener números</Text>}
+      {errors.identf?.type == "required" && <Text style={{ color: "#df4a43" }}>La identificación es obligatoria</Text>}
+      {errors.identf?.type == "pattern" && <Text style={{ color: "#df4a43" }}>La identificación solo puede contener números</Text>}
       <Controller
         control={control}
         rules={{
@@ -172,7 +174,7 @@ function AccountScreen({ route }) {
         }}
         render={({ field: { onChange, onBlur, value } }) => (
           <TextInput
-            style={[styles.inputs, { borderColor: errors.accountOwner?.type == "required" || errors.accountOwner?.type == "pattern" || errors.accountOwner?.type == "maxLength" || errors.accountOwner?.type == "minLength" ? 'red' : 'blue' }]}
+            style={[styles.inputs, { borderColor: errors.accountOwner?.type == "required" || errors.accountOwner?.type == "pattern" || errors.accountOwner?.type == "maxLength" || errors.accountOwner?.type == "minLength" ? 'red' : '#df4a43' }]}
             placeholder="Titular de la Cuenta"
             onChange={onChange}
             onBlur={onBlur}
@@ -181,8 +183,8 @@ function AccountScreen({ route }) {
         )}
         name='accountOwner'
       />
-      {errors.accountOwner?.type == "required" && <Text style={{ color: "red" }}>El titular de la cuenta es obligatorio</Text>}
-      {errors.accountOwner?.type == "pattern" && <Text style={{ color: "red" }}>El nombre del titular solo puede tener letras y/o espacios</Text>}
+      {errors.accountOwner?.type == "required" && <Text style={{ color: "#df4a43" }}>El titular de la cuenta es obligatorio</Text>}
+      {errors.accountOwner?.type == "pattern" && <Text style={{ color: "#df4a43" }}>El nombre del titular solo puede tener letras y/o espacios</Text>}
       <Controller
         control={control}
         rules={{
@@ -191,7 +193,7 @@ function AccountScreen({ route }) {
         }}
         render={({ field: { onChange, onBlur, value } }) => (
           <TextInput
-            style={[styles.inputs, { borderColor: errors.date?.type == "required" || errors.date?.type == "pattern" || errors.date?.type == "maxLength" || errors.date?.type == "minLength" ? 'red' : 'blue' }]}
+            style={[styles.inputs, { borderColor: errors.date?.type == "required" || errors.date?.type == "pattern" || errors.date?.type == "maxLength" || errors.date?.type == "minLength" ? 'red' : '#df4a43' }]}
             placeholder="Fecha"
             onChange={onChange}
             onBlur={onBlur}
@@ -200,7 +202,7 @@ function AccountScreen({ route }) {
         )}
         name='date'
       />
-      {errors.date?.type == "pattern" && <Text style={{ color: "red" }}>El formato de fecha es dd/mm/aaaa </Text>}
+      {errors.date?.type == "pattern" && <Text style={{ color: "#df4a43" }}>El formato de fecha es dd/mm/aaaa </Text>}
       <Controller
         control={control}
         rules={{
@@ -209,7 +211,7 @@ function AccountScreen({ route }) {
         }}
         render={({ field: { onChange, onBlur, value } }) => (
           <TextInput
-            style={[styles.inputs, { borderColor: errors.balance?.type == "required" || errors.balance?.type == "pattern" || errors.balance?.type == "maxLength" || errors.balance?.type == "minLength" ? 'red' : 'blue' }]}
+            style={[styles.inputs, { borderColor: errors.balance?.type == "required" || errors.balance?.type == "pattern" || errors.balance?.type == "maxLength" || errors.balance?.type == "minLength" ? 'red' : '#df4a43' }]}
             placeholder="Saldo (en millones)"
             onChange={onChange}
             onBlur={onBlur}
@@ -218,9 +220,9 @@ function AccountScreen({ route }) {
         )}
         name='balance'
       />
-      {errors.balance?.type == "pattern" && <Text style={{ color: "red" }}>Solo se admite números entre 1 y 100 millones</Text>}
+      {errors.balance?.type == "pattern" && <Text style={{ color: "#df4a43" }}>Solo se admite números entre 1 y 100 millones</Text>}
       <TouchableOpacity
-        style={{ backgroundColor: 'blue', borderRadius: 10, padding: 5, width: 180, marginTop: 10 }}
+        style={{ backgroundColor: '#df4a43', borderRadius: 10, padding: 5, width: 180, marginTop: 10 }}
         onPress={handleSubmit(onSubmit2)}
       >
         <Text style={{ color: 'white', textAlign: 'center' }}>Enviar</Text>
@@ -260,7 +262,10 @@ function HomeTabs() {
       screenOptions={{
         headerShown: false,
         tabBarActiveTintColor: 'black',
-        tabBarInactiveTintColor: 'gray',
+        tabBarInactiveTintColor: 'white',
+        tabBarInactiveBackgroundColor:'#df4a43',
+        tabBarActiveBackgroundColor:'white',
+        textAlign:'center'
       }}
     >
       {/* tabBarStyle: desactiva el menú bottom */}
@@ -269,7 +274,7 @@ function HomeTabs() {
         component={UserScreen}
         options={{
           title: 'Inicio de Sesion', tabBarStyle: { display: "none" }, tabBarIcon: (color, size) =>
-            (<Ionicons name="log-in-outline" color={'blue'} size={25} />)
+            (<Ionicons name="log-in-outline" color={'#43d8df'} size={30} />)
         }} />
 
       <Tab.Screen
@@ -277,7 +282,7 @@ function HomeTabs() {
         component={AccountScreen}
         options={{
           title: 'Cuentas', tabBarIcon: (color, size) =>
-            (<Ionicons name="person-circle-outline" color={'blue'} size={25} />)
+            (<Ionicons name="person-circle-outline" color={'#43d8df'} size={30} />)
         }}
       />
 
@@ -286,7 +291,7 @@ function HomeTabs() {
         component={BalanceScreen}
         options={{
           title: 'Movimientos', tabBarIcon: (color, size) =>
-            (<Ionicons name="list-circle-outline" color={'blue'} size={25} />)
+            (<Ionicons name="list-circle-outline" color={'#43d8df'} size={30} />)
         }} />
 
     </Tab.Navigator>
@@ -299,7 +304,7 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name="Home" component={HomeTabs} options={{ title: 'Sistema Bancario' }} />
+        <Stack.Screen name="Home" component={HomeTabs} options={{ title: 'Sistema Bancario'}}/>
       </Stack.Navigator>
     </NavigationContainer>
   );
@@ -309,14 +314,14 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: 'white',
     alignItems: 'center',
     justifyContent: 'center',
   },
   inputs: {
     borderWidth: 1,
-    borderColor: 'orange',
     borderRadius: 10,
+    color:'black',
     padding: 10,
     textAlign: 'center',
     marginBottom: 5
