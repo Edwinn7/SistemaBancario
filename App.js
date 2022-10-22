@@ -1,24 +1,16 @@
-import { StyleSheet, Text, Button, View, TextInput, Picker, Switch, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, Button, View, TextInput, TouchableOpacity, ImageBackground } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Ionicons } from '@expo/vector-icons';
 import { useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
-//import form from './Components/form.js';
 
 function UserScreen({ navigation }) {
+  const image = { uri: 'https://newpap.s3.us-west-2.amazonaws.com/wp-content/uploads/2022/05/12195018/nota-1-sistema-bancario.png' };
   const [User, setUser] = useState('');
   const [rol, setRol] = useState('');
   const [passwd, setPasswd] = useState('');
-
-  const validate = () => {
-    if (passwd == "a") {
-      setPasswd("");
-      setUser("")
-      navigation.navigate('Account', { User: User })
-    }
-  }
   const { control, handleSubmit, formState: { errors } } = useForm({
     defaultValues: {
       User: '',
@@ -27,16 +19,24 @@ function UserScreen({ navigation }) {
     }
   })
   const onSubmit = data => {
-    console.log(data.User)
-    navigation.navigate('Account', { User: User })
+    let usuario = data.User
+    console.log('Nombre de Usuario: ' + data.User)
+    if (data.rol == 'admin') {
+      navigation.navigate('Account', { User: User })
+    }
+    else {
+      alert('Necesita Rol de aministrador')
+    }
   }
   return (
     <View style={styles.container}>
+      <ImageBackground source={image} resizeMode="cover" style={styles.image}>
+      </ImageBackground>
       <Controller
         control={control}
         rules={{
           required: true,
-          pattern:/^[a-zA-ZñÑáéíóúÁÉÍÓÚ]+$/
+          pattern: /^[a-zA-ZñÑáéíóúÁÉÍÓÚ]+$/
         }}
         render={({ field: { onChange, onBlur, value } }) => (
           <TextInput
@@ -103,7 +103,7 @@ function UserScreen({ navigation }) {
   );
 }
 
-function AccountScreen({route}) {
+function AccountScreen({ route }) {
   const [numbAcc, setNumAcc] = useState('');
   const [identf, setIdentf] = useState('');
   const [accountOwner, setAccountOwner] = useState('');
@@ -119,18 +119,12 @@ function AccountScreen({route}) {
       balance: ''
     }
   })
-  // definir el metodo para mostrar los datos cuando sean validos
   const onSubmit2 = data2 => {
-    console.log(data2)
-    return (
-      <View style={{ flex: 1, flexDirection: 'row', flexWrap: 'wrap' }}>
-        <Text style={{ marginRight: 10 }}>{data2.accountOwner}</Text>
-      </View>
-    );
+    console.log('datos '+data2)
   }
   return (
     <View style={styles.container}>
-      <Text>Bienvenido: {}</Text>
+      <Text>Bienvenido</Text>
       <Controller
         control={control}
         rules={{
@@ -151,7 +145,7 @@ function AccountScreen({route}) {
         control={control}
         rules={{
           required: true,
-          pattern:/^[0-9]+$/g
+          pattern: /^[0-9]+$/g
         }}
         render={({ field: { onChange, onBlur, value } }) => (
           <TextInput
@@ -170,7 +164,7 @@ function AccountScreen({route}) {
         control={control}
         rules={{
           required: true,
-          pattern:/^[A-Za-zÁÉÍÓÚáéíóúñÑ ]+$/g
+          pattern: /^[A-Za-zÁÉÍÓÚáéíóúñÑ ]+$/g
         }}
         render={({ field: { onChange, onBlur, value } }) => (
           <TextInput
@@ -189,7 +183,7 @@ function AccountScreen({route}) {
         control={control}
         rules={{
           required: false,
-          pattern:/^([0-2][0-9]|3[0-1])(\/|-)(0[1-9]|1[0-2])\2(\d{4})$/
+          pattern: /^([0-2][0-9]|3[0-1])(\/|-)(0[1-9]|1[0-2])\2(\d{4})$/
         }}
         render={({ field: { onChange, onBlur, value } }) => (
           <TextInput
@@ -207,7 +201,7 @@ function AccountScreen({route}) {
         control={control}
         rules={{
           required: false,
-          pattern:/^[0-9]{1,2}$/
+          pattern: /^[0-9]{1,2}$/
         }}
         render={({ field: { onChange, onBlur, value } }) => (
           <TextInput
@@ -263,9 +257,9 @@ function HomeTabs() {
         headerShown: false,
         tabBarActiveTintColor: 'black',
         tabBarInactiveTintColor: 'white',
-        tabBarInactiveBackgroundColor:'#df4a43',
-        tabBarActiveBackgroundColor:'white',
-        textAlign:'center'
+        tabBarInactiveBackgroundColor: '#df4a43',
+        tabBarActiveBackgroundColor: 'white',
+        textAlign: 'center'
       }}
     >
       {/* tabBarStyle: desactiva el menú bottom */}
@@ -303,14 +297,20 @@ const Stack = createNativeStackNavigator();
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name="Home" component={HomeTabs} options={{ title: 'Sistema Bancario'}}/>
+      <Stack.Navigator screenOptions={({ }) => ({
+        headerStyle: {
+          backgroundColor: "#df4a43",
+        },
+        headerTintColor: 'white',
+        headerTitleAlign: 'center'
+      })}
+
+      >
+        <Stack.Screen name="Home" component={HomeTabs} options={{ title: 'Sistema Bancario' }} />
       </Stack.Navigator>
     </NavigationContainer>
   );
 }
-
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -321,9 +321,18 @@ const styles = StyleSheet.create({
   inputs: {
     borderWidth: 1,
     borderRadius: 10,
-    color:'black',
+    color: 'black',
     padding: 10,
     textAlign: 'center',
-    marginBottom: 5
-  }
+    marginBottom: 5,
+  },
+  image: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    opacity: 0.70,
+    width: '100%',
+    height: '100%',
+    zIndex: -1
+  },
 });
